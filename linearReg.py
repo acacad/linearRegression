@@ -65,7 +65,7 @@ def r_squared(X, y, theta):
     ss_total = np.sum((y - np.mean(y)) ** 2)
     ss_residual = np.sum((y - predictions) ** 2)
     return 1 - (ss_residual / ss_total)
-
+#'''
 # Paramètres for gradient descent
 learning_rate = 0.01
 epochs = 1000
@@ -104,3 +104,58 @@ plt.xlabel('EPOCH')
 plt.ylabel('COST')
 plt.grid(True)
 plt.show()
+
+#'''
+
+
+#below is the code that i used to get the graph of the number of epoch (X axis) related to the percent
+#  of rights predisctions of the model in the validation  data:
+'''
+
+# Paramètres for gradient descent
+learning_rate = 0.01
+epochs_list = [10, 100, 500, 1000, 2500, 4000, 6000]
+
+# Variables to keep the errors and epochs
+epochs_results = []
+percentage_errors = []
+
+# Loop through different numbers of epochs
+for epochs in epochs_list:
+    theta = np.zeros(n)  # Reinitialize theta for each run
+
+    # Train the model
+    theta, cost_history = gradient_descent(X_train, y_train, theta, learning_rate, epochs)
+
+    # Predictions on validation data
+    predictions_val = X_val.dot(theta)
+
+    # Calculate % of mistakes on the prediction
+    error = np.abs(predictions_val - y_val)
+    percentage_correct = 100 - (np.mean(error) / np.mean(y_val) * 100)
+    percentage_error = 100 - percentage_correct
+
+    # Store the results
+    epochs_results.append(epochs)
+    percentage_errors.append(percentage_error)
+
+    # Plot the cost for each epoch configuration
+    plt.plot(range(epochs), cost_history, label=f'Epochs: {epochs}')
+
+# Final plot for cost history
+plt.title('Cost Depending on the Number of Epochs')
+plt.xlabel('Epochs')
+plt.ylabel('Cost')
+plt.grid(True)
+plt.legend()
+plt.show()
+
+# Plot percentage errors vs. number of epochs
+plt.plot(epochs_results, percentage_errors, 'o-', color='r', label='Percentage Error')
+plt.title('Percentage Error vs. Number of Epochs')
+plt.xlabel('Number of Epochs')
+plt.ylabel('Percentage Error')
+plt.grid(True)
+plt.legend()
+plt.show()
+'''
